@@ -27,7 +27,7 @@ document.querySelectorAll(".category-card").forEach((button) => {
     const category = button.dataset.category;
     document.querySelectorAll(".product-card").forEach((card) => {
       const match = card.dataset.category === category;
-      card.style.display = match ? "block" : "none";
+      card.style.display = match ? "" : "none";
     });
     document.getElementById("products").scrollIntoView({ behavior: "smooth" });
   });
@@ -35,7 +35,7 @@ document.querySelectorAll(".category-card").forEach((button) => {
 
 document.getElementById("showAll").addEventListener("click", () => {
   document.querySelectorAll(".product-card").forEach((card) => {
-    card.style.display = "block";
+    card.style.display = "";
   });
 });
 
@@ -52,7 +52,7 @@ document.getElementById("searchForm").addEventListener("submit", (event) => {
   document.querySelectorAll(".product-card").forEach((card) => {
     const text = card.innerText.toLowerCase();
     const match = text.includes(keyword);
-    card.style.display = match ? "block" : "none";
+    card.style.display = match ? "" : "none";
     if (match) found += 1;
   });
 

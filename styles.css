@@ -312,7 +312,6 @@ a { color: inherit; text-decoration: none; }
 .add-cart {
   width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--yellow); font-size: 18px;
 }
-.hidden-product { display: none; }
 
 .benefit-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
 .benefit-card { background: #fafafa; padding: 22px; border-radius: 16px; border:1px solid #f0f0f0; }
