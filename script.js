@@ -266,15 +266,28 @@ function openDetails(card) {
   document.getElementById("modalSuitable").textContent = data.suitable;
   document.getElementById("modalTip").textContent = data.tip;
   document.getElementById("modalPrice").textContent = money(data.variants[0].price);
-  document.getElementById("modalVariantList").innerHTML = data.variants.map((variant, index) => `
-    <div class="modal-variant-row">
+  const variantList = document.getElementById("modalVariantList");
+  variantList.innerHTML = data.variants.map((variant, index) => `
+    <button class="modal-variant-row" type="button" data-variant-index="${index}">
       <div>
         <strong>${variant.label}</strong>
-        <span>ตัวเลือก ${index + 1}</span>
+        <span>ตัวเลือกที่ ${index + 1} จาก ${data.variants.length}</span>
       </div>
       <strong class="modal-variant-price">${money(variant.price)}</strong>
-    </div>
+    </button>
   `).join("");
+
+  variantList.querySelectorAll(".modal-variant-row").forEach(row => {
+    row.addEventListener("click", () => {
+      const select = card.querySelector(".variant-select");
+      const selectedIndex = Number(row.dataset.variantIndex);
+      select.value = String(selectedIndex);
+      select.dispatchEvent(new Event("change"));
+      variantList.querySelectorAll(".modal-variant-row").forEach(item => item.classList.remove("selected"));
+      row.classList.add("selected");
+      showToast(`เลือก ${data.variants[selectedIndex].label} แล้ว`);
+    });
+  });
   productModal.classList.add("open");
   detailBackdrop.classList.add("show");
   productModal.setAttribute("aria-hidden", "false");
