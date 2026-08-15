@@ -473,14 +473,37 @@
     <button class="modal-close" id="detailClose" type="button" aria-label="ปิดรายละเอียด">×</button>
     <div class="modal-image"><img id="modalImage" src="" alt=""></div>
     <div class="modal-copy">
-      <p class="section-kicker">รายละเอียดสินค้า</p>
+      <p class="section-kicker">SPEEDYPACK PRODUCT</p>
       <h2 id="modalTitle"></h2>
-      <p id="modalDescription"></p>
-      <div class="modal-info">
-        <div><span>ราคาเริ่มต้น</span><strong id="modalPrice"></strong></div>
-        <div><span>สถานะ</span><strong>พร้อมสั่งซื้อ</strong></div>
+      <div class="modal-start-price"><span>ราคาเริ่มต้น</span><strong id="modalPrice"></strong></div>
+
+      <div class="modal-detail-box">
+        <h3>รายละเอียดสินค้า</h3>
+        <p id="modalDescription"></p>
       </div>
-      <p class="modal-note">เลือกขนาดหรือรูปแบบที่ต้องการจากการ์ดสินค้า ก่อนเพิ่มลงตะกร้า</p>
+
+      <div class="modal-detail-grid">
+        <div class="modal-detail-card">
+          <span class="modal-detail-label">เหมาะสำหรับ</span>
+          <p id="modalSuitable"></p>
+        </div>
+        <div class="modal-detail-card">
+          <span class="modal-detail-label">คำแนะนำการใช้งาน</span>
+          <p id="modalTip"></p>
+        </div>
+      </div>
+
+      <div class="modal-variants">
+        <div class="modal-variants-head">
+          <div>
+            <span class="modal-detail-label">เลือกขนาด / ตัวเลือก</span>
+            <small>ราคาจะแตกต่างตามตัวเลือกสินค้า</small>
+          </div>
+        </div>
+        <div class="modal-variant-list" id="modalVariantList"></div>
+      </div>
+
+      <p class="modal-note">เลือกขนาดหรือรูปแบบที่ต้องการจากการ์ดสินค้า แล้วกดเพิ่มลงตะกร้า</p>
     </div>
   </section>
 
