@@ -1,23 +1,12 @@
-# SpeedyPack Website
+# SpeedyPack Store v2
 
-Static responsive e-commerce homepage for SpeedyPack.
+เวอร์ชันนี้เพิ่ม:
+- ตัวเลือกสินค้า/ขนาดในแต่ละหมวด
+- ราคาเปลี่ยนตามตัวเลือก
+- เลือกจำนวนสินค้า
+- ปุ่มดูรายละเอียดสินค้า
+- ตะกร้าสินค้าแบบ Drawer
+- คำนวณยอดรวมสินค้า
+- ค้นหาและกรองหมวดหมู่
 
-Files:
-- index.html
-- styles.css
-- script.js
-
-How to run:
-1. Open `index.html` in a browser.
-2. For best results, use a local web server such as VS Code Live Server.
-
-Included:
-- Responsive header/navigation
-- Hero section
-- Product categories
-- Best-seller product cards
-- Product search/filter
-- Add-to-cart counter
-- Benefits and trust section
-- Newsletter form
-- Footer
+หมายเหตุ: ปุ่ม Checkout ยังเป็นตัวอย่างส่วนหน้า (frontend) และยังไม่ได้เชื่อมระบบชำระเงินจริง
