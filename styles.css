@@ -415,12 +415,12 @@ a { color: inherit; text-decoration: none; }
   margin: 0 0 12px;
 }
 .product-options {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 92px;
-  gap: 10px;
+  display: flex;
+  justify-content: flex-end;
   margin: 0 0 10px;
 }
 .product-options label {
+  width: 112px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -428,17 +428,6 @@ a { color: inherit; text-decoration: none; }
   font-weight: 600;
   color: #555;
 }
-.variant-select {
-  width: 100%;
-  min-width: 0;
-  border: 1px solid #dedede;
-  border-radius: 9px;
-  background: #fff;
-  padding: 9px 8px;
-  font-size: 11px;
-  outline: none;
-}
-.variant-select:focus { border-color: var(--yellow-dark); }
 .qty-control {
   display: grid;
   grid-template-columns: 28px minmax(0,1fr) 28px;

@@ -172,8 +172,8 @@ function renderCart() {
 
 function getCardInfo(card) {
   const key = card.dataset.category;
-  const select = card.querySelector(".variant-select");
-  const variant = productData[key].variants[Number(select.value)];
+  const selectedIndex = Number(card.dataset.selectedVariant);
+  const variant = productData[key].variants[selectedIndex];
   const qty = Math.max(1, Number(card.querySelector(".qty-input").value) || 1);
   return {
     key,
@@ -189,15 +189,10 @@ document.querySelectorAll(".product-card").forEach(card => {
   const key = card.dataset.category;
   const data = productData[key];
   if (!data) return;
-  const select = card.querySelector(".variant-select");
-  const priceEl = card.querySelector(".price");
-  select.innerHTML = data.variants.map((v, i) => `<option value="${i}">${v.label} — ${money(v.price)}</option>`).join("");
-  priceEl.textContent = `ราคาเริ่มต้น ${money(data.variants[0].price)}`;
 
-  select.addEventListener("change", () => {
-    const variant = data.variants[Number(select.value)];
-    priceEl.textContent = money(variant.price);
-  });
+  const priceEl = card.querySelector(".price");
+  card.dataset.selectedVariant = "";
+  priceEl.textContent = `ราคาเริ่มต้น ${money(Math.min(...data.variants.map(v => v.price)))}`;
 
   const qtyInput = card.querySelector(".qty-input");
   card.querySelector(".qty-minus").addEventListener("click", () => {
@@ -208,6 +203,12 @@ document.querySelectorAll(".product-card").forEach(card => {
   });
 
   card.querySelector(".add-cart").addEventListener("click", () => {
+    if (card.dataset.selectedVariant === "") {
+      openDetails(card);
+      showToast("กรุณาเลือกขนาดหรือรูปแบบสินค้าก่อน");
+      return;
+    }
+
     const item = getCardInfo(card);
     const existing = cart.find(x => x.key === item.key && x.variant === item.variant);
     if (existing) existing.qty += item.qty;
@@ -259,16 +260,19 @@ const detailBackdrop = document.getElementById("detailBackdrop");
 function openDetails(card) {
   const key = card.dataset.category;
   const data = productData[key];
+  const selectedIndex = card.dataset.selectedVariant === "" ? -1 : Number(card.dataset.selectedVariant);
+
   document.getElementById("modalImage").src = card.querySelector(".product-visual img").src;
   document.getElementById("modalImage").alt = data.name;
   document.getElementById("modalTitle").textContent = data.name;
   document.getElementById("modalDescription").textContent = data.detail;
   document.getElementById("modalSuitable").textContent = data.suitable;
   document.getElementById("modalTip").textContent = data.tip;
-  document.getElementById("modalPrice").textContent = money(data.variants[0].price);
+  document.getElementById("modalPrice").textContent = money(Math.min(...data.variants.map(v => v.price)));
+
   const variantList = document.getElementById("modalVariantList");
   variantList.innerHTML = data.variants.map((variant, index) => `
-    <button class="modal-variant-row" type="button" data-variant-index="${index}">
+    <button class="modal-variant-row ${index === selectedIndex ? "selected" : ""}" type="button" data-variant-index="${index}">
       <div>
         <strong>${variant.label}</strong>
         <span>ตัวเลือกที่ ${index + 1} จาก ${data.variants.length}</span>
@@ -279,19 +283,23 @@ function openDetails(card) {
 
   variantList.querySelectorAll(".modal-variant-row").forEach(row => {
     row.addEventListener("click", () => {
-      const select = card.querySelector(".variant-select");
-      const selectedIndex = Number(row.dataset.variantIndex);
-      select.value = String(selectedIndex);
-      select.dispatchEvent(new Event("change"));
+      const index = Number(row.dataset.variantIndex);
+      const variant = data.variants[index];
+
+      card.dataset.selectedVariant = String(index);
+      card.querySelector(".price").textContent = `ราคา ${money(variant.price)}`;
+
       variantList.querySelectorAll(".modal-variant-row").forEach(item => item.classList.remove("selected"));
       row.classList.add("selected");
-      showToast(`เลือก ${data.variants[selectedIndex].label} แล้ว`);
+      showToast(`เลือก ${variant.label} แล้ว`);
     });
   });
+
   productModal.classList.add("open");
   detailBackdrop.classList.add("show");
   productModal.setAttribute("aria-hidden", "false");
 }
+
 function closeDetails() {
   productModal.classList.remove("open");
   detailBackdrop.classList.remove("show");
