@@ -287,13 +287,31 @@ function openDetails(card) {
     row.addEventListener("click", () => {
       const index = Number(row.dataset.variantIndex);
       const variant = data.variants[index];
+      const qty = Math.max(1, Number(card.querySelector(".qty-input").value) || 1);
 
       card.dataset.selectedVariant = String(index);
       card.querySelector(".price").textContent = `ราคา ${money(variant.price)}`;
 
       variantList.querySelectorAll(".modal-variant-row").forEach(item => item.classList.remove("selected"));
       row.classList.add("selected");
-      showToast(`เลือก ${variant.label} แล้ว`);
+
+      const item = {
+        key,
+        name: data.name,
+        variant: variant.label,
+        price: variant.price,
+        qty,
+        image: card.querySelector(".product-visual img").getAttribute("src")
+      };
+
+      const existing = cart.find(x => x.key === item.key && x.variant === item.variant);
+      if (existing) existing.qty += item.qty;
+      else cart.push(item);
+
+      renderCart();
+      closeDetails();
+      openCart();
+      showToast(`เพิ่ม ${data.name} (${variant.label}) ลงตะกร้าแล้ว`);
     });
   });
 
