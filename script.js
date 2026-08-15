@@ -269,6 +269,8 @@ function openDetails(card) {
   document.getElementById("modalSuitable").textContent = data.suitable;
   document.getElementById("modalTip").textContent = data.tip;
   document.getElementById("modalPrice").textContent = money(Math.min(...data.variants.map(v => v.price)));
+  const variantCount = document.getElementById("modalVariantCount");
+  if (variantCount) variantCount.textContent = `${data.variants.length} ตัวเลือก — แตะเพื่อเลือก`;
 
   const variantList = document.getElementById("modalVariantList");
   variantList.innerHTML = data.variants.map((variant, index) => `
